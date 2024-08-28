@@ -1,0 +1,14 @@
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\bin\Debug\net8.0\Mathematics.exe
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\bin\Debug\net8.0\Mathematics.deps.json
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\bin\Debug\net8.0\Mathematics.runtimeconfig.json
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\bin\Debug\net8.0\Mathematics.dll
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\bin\Debug\net8.0\Mathematics.pdb
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\Mathematics.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\Mathematics.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\Mathematics.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\Mathematics.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\Mathematics.dll
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\refint\Mathematics.dll
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\Mathematics.pdb
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\Mathematics.genruntimeconfig.cache
+C:\Users\Administrator\Desktop\Workbench\kodlamaio\Mathematics\obj\Debug\net8.0\ref\Mathematics.dll
