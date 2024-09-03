@@ -13,6 +13,6 @@ namespace Day5.Entities
         public string firstName { get; set; }
         public string lastName { get; set; }
         public int yearOfBirth { get; set; }
-        public string identityNumber { get; set; }
+        public long identityNumber { get; set; }
     }
 }

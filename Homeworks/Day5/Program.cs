@@ -2,12 +2,11 @@
 using Day5.Entities;
 
 Console.WriteLine("Customer Methods");
-Customer customer = new Customer() { id = 1, firstName = "Furkan", lastName = "Gerem", yearOfBirth = 1998, identityNumber = "11111111111" };
-CustomerManager customerManager = new CustomerManager();
+Customer customer = new Customer() { id = 1, firstName = "Furkan", lastName = "Gerem", yearOfBirth = 1998, identityNumber = 11111111111 };
+CustomerManager customerManager = new CustomerManager(new MernisManager());
 customerManager.Add(customer);
 customerManager.Update(customer);
 customerManager.Remove(customer);
-customerManager.CheckIfRealPerson(customer);
 Console.WriteLine("Customer Methods");
 
 Console.WriteLine("Campaign Methods");
