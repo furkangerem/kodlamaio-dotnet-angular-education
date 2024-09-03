@@ -1,1 +1,63 @@
+# Build outputs
+bin/
+obj/
+out/
+
+# Visual Studio specific files
 .vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider specific files
+.idea/
+
+# Recycle Bin used by VSCode
+.vscode/.recycle/
+
+# Auto-generated files
+Generated\ Files/
+*.g.cs
+*.g.i.cs
+*.g.vb
+*.g.i.vb
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+# Uncomment if you have an environment that uses the global NuGet cache
+# .nuget/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# IDE config files
+*.VSConfig
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows file system
+$RECYCLE.BIN/
+
+# Mac OS file system
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.idea/
