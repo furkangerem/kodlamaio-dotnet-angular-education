@@ -1,0 +1,20 @@
+﻿CREATE TABLE Brand (
+    BrandId INT PRIMARY KEY IDENTITY(1,1),
+    BrandName NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Color (
+    ColorId INT PRIMARY KEY IDENTITY(1,1),
+    ColorName NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Car (
+    CarId INT PRIMARY KEY IDENTITY(1,1),
+    BrandId INT NOT NULL,
+    ColorId INT NOT NULL,
+    ModelYear INT NOT NULL,
+    DailyPrice FLOAT NOT NULL,
+    Description NVARCHAR(MAX),
+    FOREIGN KEY (BrandId) REFERENCES Brand(BrandId),
+    FOREIGN KEY (ColorId) REFERENCES Color(ColorId)
+);

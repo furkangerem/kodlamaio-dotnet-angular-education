@@ -18,30 +18,23 @@ namespace Business.Concrete
         }
         public void Add(Car car)
         {
+
+            if (car.DailyPrice < 1)
+                throw new Exception("The daily rate for the car can't be 0!");
+            if (car.Description.Length < 3)
+                throw new Exception("The length of the detail field entered for the vehicle must be at least 2 characters!");
+
             _iCarDal.Add(car);
             Console.WriteLine("The new car added to the list!");
         }
-
-        public void Delete(Car car)
+        public List<Car> GetAllCarsByBrandId(int brandId)
         {
-            _iCarDal.Delete(car);
-            Console.WriteLine("Given car is deleted from the db!");
+            return _iCarDal.GetAll(car => car.BrandId == brandId);
         }
 
-        public List<Car> GetAll()
+        public List<Car> GetAllCarsByColorId(int colorId)
         {
-            return _iCarDal.GetAll();
-        }
-
-        public Car GetCarById(int carId)
-        {
-            return _iCarDal.GetCarById(carId);
-        }
-
-        public void Update(Car car)
-        {
-            _iCarDal.Update(car);
-            Console.WriteLine("Given car information is updated!");
+            return _iCarDal.GetAll(car => car.ColorId == colorId);
         }
     }
 }
