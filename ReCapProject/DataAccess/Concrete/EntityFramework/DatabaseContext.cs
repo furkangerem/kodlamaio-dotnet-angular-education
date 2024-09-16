@@ -18,8 +18,8 @@ namespace DataAccess.Concrete.EntityFramework
         }
 
         // With the following props, we establish the connection between the Database tables and the Entities we create.
-        public DbSet<Brand> Brand { get; set; }
-        public DbSet<Car> Car { get; set; }
-        public DbSet<Color> Color { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Color> Colors { get; set; }
     }
 }

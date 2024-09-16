@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entity.Concrete;
+using Entity.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,56 +12,22 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, DatabaseContext>, ICarDal
     {
-        // Objects written in Using are directly cleaned by Garbage Collector when Using is finished.
-        // IDisposable Pattern implementation of C#.
-        public void Add(Car entity)
+
+        public List<CarDetailDto> GetCarDetails()
         {
-            using (DatabaseContext databaseContext = new DatabaseContext())
+            using (DatabaseContext dbContext = new DatabaseContext())
             {
-                var addedEntity = databaseContext.Entry(entity); // Find the reference.
-                addedEntity.State = EntityState.Added; // Will be added object.
-                databaseContext.SaveChanges(); // Save in DB.
+                var result = from car in dbContext.Cars
+                             join bnd in dbContext.Brands
+                             on car.BrandId equals bnd.BrandId
+                             join clr in dbContext.Colors
+                             on car.ColorId equals clr.ColorId
+                             select new CarDetailDto { CarName = car.Name, BrandName = bnd.BrandName, ColorName = clr.ColorName, DailyPrice = car.DailyPrice };
+                return result.ToList();
             }
         }
 
-        public void Delete(Car entity)
-        {
-            using (DatabaseContext databaseContext = new DatabaseContext())
-            {
-                var removedEntity = databaseContext.Entry(entity); // Find the reference.
-                removedEntity.State = EntityState.Deleted; // Will be deleted object.
-                databaseContext.SaveChanges(); // Delete from DB.
-            }
-        }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
-        {
-            using (DatabaseContext databaseContext = new DatabaseContext())
-            {
-                return databaseContext.Set<Car>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (DatabaseContext databaseContext = new DatabaseContext())
-            {
-                return filter == null
-                    ? databaseContext.Set<Car>().ToList()
-                    : databaseContext.Set<Car>().Where(filter).ToList();
-            }
-        }
-
-        public void Update(Car entity)
-        {
-            using (DatabaseContext databaseContext = new DatabaseContext())
-            {
-                var updatedEntity = databaseContext.Entry(entity); // Find the reference.
-                updatedEntity.State = EntityState.Modified; // Will be updated object.
-                databaseContext.SaveChanges(); // Update into DB.
-            }
-        }
     }
 }
