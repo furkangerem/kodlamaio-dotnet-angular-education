@@ -9,8 +9,16 @@ ProductDetailsTest();
 static void ProductTest()
 {
     ProductManager productManager = new ProductManager(new EfProductDal());
-    foreach (Product eachProduct in productManager.GetByUnitPrice(40, 100))
-        Console.WriteLine(eachProduct.ProductName);
+    var result = productManager.GetByUnitPrice(40, 100);
+    if (result.IsSuccess)
+    {
+        foreach (Product eachProduct in result.Data)
+            Console.WriteLine(eachProduct.ProductName);
+    }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
 }
 
 static void CategoryTest()
@@ -23,6 +31,6 @@ static void CategoryTest()
 static void ProductDetailsTest()
 {
     ProductManager productManager = new ProductManager(new EfProductDal());
-    foreach (var eachProduct in productManager.GetProductDetails())
+    foreach (var eachProduct in productManager.GetProductDetails().Data)
         Console.WriteLine(eachProduct.ProductName + " - " + eachProduct.CategoryName);
 }
