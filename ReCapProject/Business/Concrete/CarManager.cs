@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results.Concretes;
+using Core.Utilities.Results.Abstracts;
 using DataAccess.Abstract;
 using Entity.Concrete;
 using Entity.Dtos;
@@ -7,6 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Utilities.Results.Concretes.Success;
+using Business.Constants;
+using Core.Utilities.Results.Concretes.Errors;
+using System.Drawing;
 
 namespace Business.Concrete
 {
@@ -18,65 +24,68 @@ namespace Business.Concrete
             _iCarDal = iCarDal;
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _iCarDal.GetAll();
-        }
-        public Car GetCarById(int carId)
-        {
-            return _iCarDal.Get(car => car.CarId == carId);
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(), Messages.CarListed);
         }
 
-        public void Add(Car car)
+        public IDataResult<Car> GetCarById(int carId)
+        {
+            return new SuccessDataResult<Car>(_iCarDal.Get(car => car.CarId == carId), Messages.CarFound);
+        }
+
+        public IResult Add(Car car)
         {
             if (car.DailyPrice < 1)
-                throw new Exception("The daily rate for the car can't be 0!");
-            if (car.Description.Length < 3)
-                throw new Exception("The length of the detail field entered for the vehicle must be at least 2 characters!");
+                return new ErrorResult(Messages.CarDailyRateMissing);
+            if (car.Name.Length < 3)
+                return new ErrorResult(Messages.CarNameMissing);
 
             _iCarDal.Add(car);
-            Console.WriteLine("The new car added to the list!");
+            return new SuccessResult(Messages.CarAdded);
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
-            Car tempCar = GetCarById(car.CarId);
-            if (tempCar == null)
-                throw new Exception("You can not update nonexisting car!");
+            IDataResult<Car> tempCar = GetCarById(car.CarId);
+            if (tempCar.Data == null)
+                return new ErrorResult(Messages.CarNotExist);
 
-            tempCar.CarId = car.CarId;
-            tempCar.BrandId = car.BrandId;
-            tempCar.ColorId = car.ColorId;
-            tempCar.Name = car.Name;
-            tempCar.ModelYear = car.ModelYear;
-            tempCar.DailyPrice = car.DailyPrice;
-            tempCar.Description = car.Description;
+            tempCar.Data.CarId = car.CarId;
+            tempCar.Data.BrandId = car.BrandId;
+            tempCar.Data.ColorId = car.ColorId;
+            tempCar.Data.Name = car.Name;
+            tempCar.Data.ModelYear = car.ModelYear;
+            tempCar.Data.DailyPrice = car.DailyPrice;
+            tempCar.Data.Description = car.Description;
 
-            _iCarDal.Update(tempCar);
+            _iCarDal.Update(tempCar.Data);
+            return new SuccessResult(Messages.CarUpdated);
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
-            Car tempCar = GetCarById(car.CarId);
-            if (tempCar == null)
-                throw new Exception("You can not delete nonexisting car!");
+            IDataResult<Car> tempCar = GetCarById(car.CarId);
+            if (tempCar.Data == null)
+                return new ErrorResult(Messages.CarNotExist);
 
-            _iCarDal.Delete(tempCar);
+            _iCarDal.Delete(tempCar.Data);
+            return new SuccessResult(Messages.CarDeleted);
         }
 
-        public List<Car> GetAllCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetAllCarsByBrandId(int brandId)
         {
-            return _iCarDal.GetAll(car => car.BrandId == brandId);
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(car => car.BrandId == brandId), Messages.CarListed);
         }
 
-        public List<Car> GetAllCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetAllCarsByColorId(int colorId)
         {
-            return _iCarDal.GetAll(car => car.ColorId == colorId);
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(car => car.ColorId == colorId), Messages.CarListed);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _iCarDal.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_iCarDal.GetCarDetails(), Messages.CarListed);
         }
     }
 }

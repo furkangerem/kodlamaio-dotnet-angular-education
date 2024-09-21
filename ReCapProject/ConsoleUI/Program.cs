@@ -184,6 +184,18 @@ Console.WriteLine("---------------------------------------------");
 */
 
 // brandManager.Delete(brand);
-
+/*
 foreach (var eachCar in carManager.GetCarDetails())
     Console.WriteLine(eachCar.CarName + " - " + eachCar.BrandName + " - " + eachCar.ColorName + " - " + eachCar.DailyPrice);
+*/
+
+// Testing IResult and IDataResult
+var result = carManager.GetCarDetails();
+if (result.IsSuccess)
+{
+    Console.WriteLine(result.Message);
+    foreach (var eachCar in result.Data)
+        Console.WriteLine(eachCar.CarName + " - " + eachCar.BrandName + " - " + eachCar.ColorName + " - " + eachCar.DailyPrice);
+}
+else
+    Console.WriteLine(result.Message);

@@ -1,4 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results.Abstracts;
+using Core.Utilities.Results.Concretes.Errors;
+using Core.Utilities.Results.Concretes.Success;
 using DataAccess.Abstract;
 using Entity.Concrete;
 using System;
@@ -18,42 +22,45 @@ namespace Business.Concrete
             _iBrandDal = brandDal;
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _iBrandDal.GetAll();
+            return new SuccessDataResult<List<Brand>>(_iBrandDal.GetAll(), Messages.BrandListed);
         }
 
-        public Brand GetBrandById(int brandId)
+        public IDataResult<Brand> GetBrandById(int brandId)
         {
-            return _iBrandDal.Get(brand => brand.BrandId == brandId);
+            return new SuccessDataResult<Brand>(_iBrandDal.Get(brand => brand.BrandId == brandId), Messages.BrandFound);
         }
 
-        public void Add(Brand brand)
+        public IResult Add(Brand brand)
         {
             if (brand.BrandName.Length <= 3)
-                throw new Exception("The length of the brand name must be at least 3 characters!");
+                return new ErrorResult(Messages.BrandNameMissing);
 
             _iBrandDal.Add(brand);
+            return new SuccessResult(Messages.BrandAdded);
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand brand)
         {
-            Brand tempBrand = GetBrandById(brand.BrandId);
-            if (tempBrand == null)
-                throw new Exception("You can not delete nonexisting brand!");
+            IDataResult<Brand> tempBrand = GetBrandById(brand.BrandId);
+            if (tempBrand.Data == null)
+                return new ErrorResult(Messages.BrandNotExist);
 
-            _iBrandDal.Delete(tempBrand);
+            _iBrandDal.Delete(tempBrand.Data);
+            return new SuccessResult(Messages.BrandDeleted);
         }
 
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
-            Brand tempBrand = GetBrandById(brand.BrandId);
+            IDataResult<Brand> tempBrand = GetBrandById(brand.BrandId);
             if (tempBrand == null)
-                throw new Exception("You can not update nonexisting brand!");
+                return new ErrorResult(Messages.BrandNotExist);
 
-            tempBrand.BrandId = brand.BrandId;
-            tempBrand.BrandName = brand.BrandName;
-            _iBrandDal.Update(tempBrand);
+            tempBrand.Data.BrandId = brand.BrandId;
+            tempBrand.Data.BrandName = brand.BrandName;
+            _iBrandDal.Update(tempBrand.Data);
+            return new SuccessResult(Messages.BrandUpdated);
         }
     }
 }

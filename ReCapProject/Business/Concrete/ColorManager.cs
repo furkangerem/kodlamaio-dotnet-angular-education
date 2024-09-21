@@ -1,4 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results.Abstracts;
+using Core.Utilities.Results.Concretes.Errors;
+using Core.Utilities.Results.Concretes.Success;
 using DataAccess.Abstract;
 using Entity.Concrete;
 using System;
@@ -17,42 +21,45 @@ namespace Business.Concrete
             _iColorDal = iColorDal;
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _iColorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(_iColorDal.GetAll(), Messages.ColorListed);
         }
 
-        public Color GetColorById(int colorId)
+        public IDataResult<Color> GetColorById(int colorId)
         {
-            return _iColorDal.Get(color => color.ColorId == colorId);
+            return new SuccessDataResult<Color>(_iColorDal.Get(color => color.ColorId == colorId), Messages.ColorFound);
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
             if (color.ColorName.Length <= 3)
-                throw new Exception("The length of the color name must be at least 3 characters!");
+                return new ErrorResult(Messages.ColorNameMissing);
 
             _iColorDal.Add(color);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
-            Color tempColor = GetColorById(color.ColorId);
-            if (tempColor == null)
-                throw new Exception("You can not delete nonexisting color!");
+            IDataResult<Color> tempColor = GetColorById(color.ColorId);
+            if (tempColor.Data == null)
+                return new ErrorResult(Messages.ColorNotExist);
 
-            _iColorDal.Delete(tempColor);
+            _iColorDal.Delete(tempColor.Data);
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
-            Color tempColor = GetColorById(color.ColorId);
-            if (tempColor == null)
-                throw new Exception("You can not update nonexisting color!");
+            IDataResult<Color> tempColor = GetColorById(color.ColorId);
+            if (tempColor.Data == null)
+                return new ErrorResult(Messages.ColorNotExist);
 
-            tempColor.ColorId = color.ColorId;
-            tempColor.ColorName = color.ColorName;
-            _iColorDal.Update(tempColor);
+            tempColor.Data.ColorId = color.ColorId;
+            tempColor.Data.ColorName = color.ColorName;
+            _iColorDal.Update(tempColor.Data);
+            return new SuccessResult(Messages.ColorUpdated);
         }
     }
 }
