@@ -28,12 +28,12 @@ namespace Business.Concrete
 
         public IDataResult<Color> GetColorById(int colorId)
         {
-            return new SuccessDataResult<Color>(_iColorDal.Get(color => color.ColorId == colorId), Messages.ColorFound);
+            return new SuccessDataResult<Color>(_iColorDal.Get(color => color.Id == colorId), Messages.ColorFound);
         }
 
         public IResult Add(Color color)
         {
-            if (color.ColorName.Length <= 3)
+            if (color.Name.Length <= 3)
                 return new ErrorResult(Messages.ColorNameMissing);
 
             _iColorDal.Add(color);
@@ -42,7 +42,7 @@ namespace Business.Concrete
 
         public IResult Delete(Color color)
         {
-            IDataResult<Color> tempColor = GetColorById(color.ColorId);
+            IDataResult<Color> tempColor = GetColorById(color.Id);
             if (tempColor.Data == null)
                 return new ErrorResult(Messages.ColorNotExist);
 
@@ -52,12 +52,12 @@ namespace Business.Concrete
 
         public IResult Update(Color color)
         {
-            IDataResult<Color> tempColor = GetColorById(color.ColorId);
+            IDataResult<Color> tempColor = GetColorById(color.Id);
             if (tempColor.Data == null)
                 return new ErrorResult(Messages.ColorNotExist);
 
-            tempColor.Data.ColorId = color.ColorId;
-            tempColor.Data.ColorName = color.ColorName;
+            tempColor.Data.Id = color.Id;
+            tempColor.Data.Name = color.Name;
             _iColorDal.Update(tempColor.Data);
             return new SuccessResult(Messages.ColorUpdated);
         }

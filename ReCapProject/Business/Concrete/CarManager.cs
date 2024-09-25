@@ -31,7 +31,7 @@ namespace Business.Concrete
 
         public IDataResult<Car> GetCarById(int carId)
         {
-            return new SuccessDataResult<Car>(_iCarDal.Get(car => car.CarId == carId), Messages.CarFound);
+            return new SuccessDataResult<Car>(_iCarDal.Get(car => car.Id == carId), Messages.CarFound);
         }
 
         public IResult Add(Car car)
@@ -47,11 +47,11 @@ namespace Business.Concrete
 
         public IResult Update(Car car)
         {
-            IDataResult<Car> tempCar = GetCarById(car.CarId);
+            IDataResult<Car> tempCar = GetCarById(car.Id);
             if (tempCar.Data == null)
                 return new ErrorResult(Messages.CarNotExist);
 
-            tempCar.Data.CarId = car.CarId;
+            tempCar.Data.Id = car.Id;
             tempCar.Data.BrandId = car.BrandId;
             tempCar.Data.ColorId = car.ColorId;
             tempCar.Data.Name = car.Name;
@@ -65,7 +65,7 @@ namespace Business.Concrete
 
         public IResult Delete(Car car)
         {
-            IDataResult<Car> tempCar = GetCarById(car.CarId);
+            IDataResult<Car> tempCar = GetCarById(car.Id);
             if (tempCar.Data == null)
                 return new ErrorResult(Messages.CarNotExist);
 

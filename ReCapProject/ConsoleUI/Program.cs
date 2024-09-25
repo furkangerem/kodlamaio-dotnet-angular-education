@@ -8,6 +8,9 @@ using Entity.Concrete;
 CarManager carManager = new CarManager(new EfCarDal());
 ColorManager colorManager = new ColorManager(new EfColorDal());
 BrandManager brandManager = new BrandManager(new EfBrandDal());
+UserManager userManager = new UserManager(new EfUserDal());
+CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
 // InMemory Solution
 /*
@@ -190,6 +193,7 @@ foreach (var eachCar in carManager.GetCarDetails())
 */
 
 // Testing IResult and IDataResult
+/*
 var result = carManager.GetCarDetails();
 if (result.IsSuccess)
 {
@@ -199,3 +203,24 @@ if (result.IsSuccess)
 }
 else
     Console.WriteLine(result.Message);
+*/
+
+/*
+// Creating a User
+User user = new User() { FirstName = "Furkan", LastName = "Gerem", Email = "furkangerem@hotmail.com", Password = "Password" };
+var userResult = userManager.Add(user);
+Console.WriteLine(userResult.Message);
+
+// Creating a Customer
+Customer customer = new Customer() { UserId = 4, CompanyName = "MFG" };
+var customerResult = customerManager.Add(customer);
+Console.WriteLine(customerResult.Message);
+*/
+
+// Renting a Car
+var rental = rentalManager.Add(new Rental() { CarId = 3, CustomerId = 3, RentDate = DateTime.Now });
+Console.WriteLine(rental.Message);
+
+// Rent a Rented Car
+var isRented = rentalManager.Add(new Rental() { CarId = 2, CustomerId = 3, RentDate = DateTime.Now });
+Console.WriteLine(isRented.Message);

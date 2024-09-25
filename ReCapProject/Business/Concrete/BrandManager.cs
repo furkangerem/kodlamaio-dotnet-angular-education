@@ -29,12 +29,12 @@ namespace Business.Concrete
 
         public IDataResult<Brand> GetBrandById(int brandId)
         {
-            return new SuccessDataResult<Brand>(_iBrandDal.Get(brand => brand.BrandId == brandId), Messages.BrandFound);
+            return new SuccessDataResult<Brand>(_iBrandDal.Get(brand => brand.Id == brandId), Messages.BrandFound);
         }
 
         public IResult Add(Brand brand)
         {
-            if (brand.BrandName.Length <= 3)
+            if (brand.Name.Length <= 3)
                 return new ErrorResult(Messages.BrandNameMissing);
 
             _iBrandDal.Add(brand);
@@ -43,7 +43,7 @@ namespace Business.Concrete
 
         public IResult Delete(Brand brand)
         {
-            IDataResult<Brand> tempBrand = GetBrandById(brand.BrandId);
+            IDataResult<Brand> tempBrand = GetBrandById(brand.Id);
             if (tempBrand.Data == null)
                 return new ErrorResult(Messages.BrandNotExist);
 
@@ -53,12 +53,12 @@ namespace Business.Concrete
 
         public IResult Update(Brand brand)
         {
-            IDataResult<Brand> tempBrand = GetBrandById(brand.BrandId);
+            IDataResult<Brand> tempBrand = GetBrandById(brand.Id);
             if (tempBrand == null)
                 return new ErrorResult(Messages.BrandNotExist);
 
-            tempBrand.Data.BrandId = brand.BrandId;
-            tempBrand.Data.BrandName = brand.BrandName;
+            tempBrand.Data.Id = brand.Id;
+            tempBrand.Data.Name = brand.Name;
             _iBrandDal.Update(tempBrand.Data);
             return new SuccessResult(Messages.BrandUpdated);
         }
