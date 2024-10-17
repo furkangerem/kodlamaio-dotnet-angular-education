@@ -15,6 +15,7 @@ namespace Business.ValidationRules.FluentValidation
         {
             // According to SOLID rules, one row is created for each rule.
             RuleFor(car => car.Name).NotEmpty();
+            RuleFor(car => car.Name).MinimumLength(4);
             RuleFor(car => car.BrandId).NotEmpty();
             RuleFor(car => car.ColorId).NotEmpty();
             RuleFor(car => car.ModelYear).NotEmpty();

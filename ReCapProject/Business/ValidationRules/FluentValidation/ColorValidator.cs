@@ -15,6 +15,7 @@ namespace Business.ValidationRules.FluentValidation
         {
             // According to SOLID rules, one row is created for each rule.
             RuleFor(color => color.Name).NotEmpty();
+            RuleFor(color => color.Name).MinimumLength(4);
         }
     }
 }

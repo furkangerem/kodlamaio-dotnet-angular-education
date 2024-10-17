@@ -13,6 +13,8 @@ using Core.Utilities.Results.Concretes.Success;
 using Business.Constants;
 using Core.Utilities.Results.Concretes.Errors;
 using System.Drawing;
+using Core.Aspects.Autofac.Validation;
+using Business.ValidationRules.FluentValidation;
 
 namespace Business.Concrete
 {
@@ -34,13 +36,9 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_iCarDal.Get(car => car.Id == carId), Messages.CarFound);
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.DailyPrice < 1)
-                return new ErrorResult(Messages.CarDailyRateMissing);
-            if (car.Name.Length < 3)
-                return new ErrorResult(Messages.CarNameMissing);
-
             _iCarDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }

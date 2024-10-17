@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results.Abstracts;
 using Core.Utilities.Results.Concretes.Errors;
 using Core.Utilities.Results.Concretes.Success;
@@ -31,11 +33,9 @@ namespace Business.Concrete
             return new SuccessDataResult<Color>(_iColorDal.Get(color => color.Id == colorId), Messages.ColorFound);
         }
 
+        [ValidationAspect(typeof(ColorValidator))]
         public IResult Add(Color color)
         {
-            if (color.Name.Length <= 3)
-                return new ErrorResult(Messages.ColorNameMissing);
-
             _iColorDal.Add(color);
             return new SuccessResult(Messages.ColorAdded);
         }
