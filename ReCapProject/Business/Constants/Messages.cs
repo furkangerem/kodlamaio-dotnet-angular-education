@@ -63,7 +63,14 @@ namespace Business.Constants
 
         public static string UserNotExist = "You can not do anything on nonexisting user!";
 
+        public static string CarImageAdded = "Car image is added successfully!";
+        public static string CarImageDeleted = "Car image is deleted successfully!";
+        public static string CarImageUpdated = "Car image is updated successfully!";
+        public static string CarImageListed = "Cars images are listed!";
+        public static string CarImageFound = "Car image is found successfully!";
 
+        public static string CarImageNotExist = "You can not do anything on nonexisting car image!";
+        public static string CarImageLimitExceeded = "You can not add more than 5 images!";
 
         public static string MaintenanceTime = "The system is under maintenance, try again later!";
     }

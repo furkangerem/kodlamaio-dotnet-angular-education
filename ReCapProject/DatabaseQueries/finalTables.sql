@@ -50,3 +50,12 @@ CREATE TABLE Rentals (
     CONSTRAINT FK_Rentals_Car FOREIGN KEY (CarId) REFERENCES Car(Id),  -- Araba ile ilişki
     CONSTRAINT FK_Rentals_Customers FOREIGN KEY (CustomerId) REFERENCES Customers(Id)  -- Müşteri ile ilişki
 );
+
+-- 7. CarImages tablosu: Arabaların resim bilgilerini tutar, Car tablosuna bağlı
+CREATE TABLE CarImages (
+    Id INT PRIMARY KEY IDENTITY(1,1),  -- Otomatik artan birincil anahtar
+    CarId INT NOT NULL,  -- Car tablosuna bağlanan sütun
+    ImagePath NVARCHAR(255) NOT NULL,  -- Resmin yolu (dosya konumu)
+    Date DATETIME NOT NULL DEFAULT GETDATE(),  -- Resmin eklenme tarihi
+    CONSTRAINT FK_CarImages_Car FOREIGN KEY (CarId) REFERENCES Car(Id)  -- Araba ile ilişki
+);
